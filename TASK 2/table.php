@@ -48,30 +48,41 @@ $users = [
             'home' => 'drawing'
         ],
     ],
+    (object)[
+        'id' => 0,
+        'name' => 'reem',
+        "gender" => (object)[
+            'gender' => 'f'
+        ],
+        'hobbies' => [
+            'running,',
+            'football'
+        ],
+        'activities' => [
+            "school" => 'painting, ',
+            'home' => 'drawing'
+        ],
+        
+    ],
+    (object)[
+        'id' => 5,
+        'name' => 'karim',
+        "gender" => (object)[
+            'gender' => 'm'
+        ],
+        'hobbies' => [
+            'running, ',
+            'football, ',
+            'swimming'
+        ],
+        'activities' => [
+            "school" => 'painting, ',
+            'home' => 'drawing'
+        ],
+        
+    ],
 ];
-
-/************************test code******************/
-// foreach ($users as $index => $value) {
-// 
-// foreach ($value as $value2 => $index2) {
-// 
-// if (gettype($index2) == 'object') {
-// foreach ($index2 as $index3 => $value3) {
-// echo "{$value3} <br>";
-// }
-// } elseif (gettype($index2) == 'array') {
-// foreach ($index2 as $index3 => $value3) {
-// echo "{$value3} <br>";
-// }
-// } elseif (gettype($index2) != 'array' &&  gettype($index2) != 'object') {
-// echo "{$index2} <br>";
-// }
-// }
-// }
-/************************test code******************/
-
 ?>
-
 
 <!doctype html>
 <html lang="en">
@@ -100,49 +111,42 @@ $users = [
             <thead>
                 <tr>
                     <?php
-                    foreach ($users[0] as $index => $value) {
-                        echo "<th scope='col'>{$index}</th>";
+                    foreach ($users[0] as $property => $value) {
+                        echo "<th scope='col'>{$property}</th>";
                     }
                     ?>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                foreach ($users as $index => $value) {
+                foreach ($users as $index => $user) {
                     echo "<tr>";
-
-                    if ($users[$index]->id == null) {
-                        $id = 0;
-                    } else {
-                        $id = $users[$index]->id;
-                    }
-
-                    if ($users[$index]->gender->gender == 'm') {
-                        $gender = "Male";
-                    } else {
-                        $gender = "Female";
-                    }
-
-                    foreach ($value as $value2 => $index2) {
-                        if (gettype($index2) != 'array' &&  gettype($index2) != 'object') {
-                            if ($index2 == $users[$index]->id) {
-                                echo "<th scope='row'>{$id}</th>";
+                    foreach ($user as $property => $value) {
+                        if (gettype($value) != 'array' &&  gettype($value) != 'object') {
+                            if ($value == $users[$index]->id) {
+                                echo "<th scope='row'>{$value}</th>";
                             } else {
-                                echo "<th scope='row'>{$index2}</th>";
+                                echo "<th scope='row'>{$value}</th>";
                             }
-                        } elseif (gettype($index2) == 'object') {
+                        } elseif (gettype($value) == 'object' || gettype($value) == 'array') {
                             echo "<td scope='row'>";
-                            foreach ($index2 as $index3 => $value3) {
-                                echo "{$gender}";
+                            foreach ($value as $key => $objectArrayValue) {
+                                if($key == 'gender')
+                                {
+                                    if($objectArrayValue == 'm')
+                                    {
+                                        $objectArrayValue = 'Male';
+                                    }
+                                    else
+                                    {
+                                        $objectArrayValue = 'Female';
+                                    }
+                                    
+                                }
+                                echo "{$objectArrayValue}";
                             }
                             echo "</td>";
-                        } elseif (gettype($index2) == 'array') {
-                            echo "<td scope='row'>";
-                            foreach ($index2 as $index3 => $value3) {
-                                echo "{$value3}";
-                            }
-                            echo "</td>";
-                        }
+                        } 
                     }
                     echo "</tr>";
                 }
