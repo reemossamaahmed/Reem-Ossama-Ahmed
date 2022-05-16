@@ -1,8 +1,9 @@
 <?php
+$city = "";
+$total = 0;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
     $name = $_POST['name'] ?? '';
-    $city = $_POST['city'];
+    $city = $_POST['city'] ;
     $number_of_varieties = $_POST['number-of-varieties'];
     if (isset($_POST['submit-info-user'])) {
         if (!empty($name) && $number_of_varieties > 0) {
@@ -17,63 +18,114 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $table .= "<tbody>";
             for ($i = 1; $i <= $number_of_varieties; $i++) {
                 $table  .= "<tr>";
-                $table .= '<td><input type="text" name="product-name-{$i}" class="form-control"></td>';
+                $table .= "<td><input type='text' name='product-name-{$i}' class='form-control'></td>";
                 
-                $table .= "<td><input type='text' name='price' class='form-control'></td>";
-                $table .= "<td><input type='text' name='quantities' class='form-control'></td>";
-                $table .= "</tr>";          
-                $product_name = $_POST["product-name-{$i}"]??'test';
-                echo $product_name;
+                $table .= "<td><input type='text' name='price-{$i}' class='form-control'></td>";
+                $table .= "<td><input type='text' name='quantities-{$i}' class='form-control'></td>";
+                $table .= "</tr>";
+                $product_name = $_POST["product-name-{$i}"]??'';
             }
             $table .= "</tbody>";
             $table .= "</table>";
             $table .= "<button type='submit' name='submit-products' class='btn btn-primary mt-2 col-12'>Receipt</button>";
-            
         }
-        
     }
-
-    //////////////////////////////////////
 
     if (isset($_POST['submit-products'])) {
+        
+            $table_products  = "<table class='table'>";
+            $table_products .= "<thead>";
+            $table_products .= "<tr class='text-primary'>";
+            $table_products .= "<th scope='col'>Product name</th>";
+            $table_products .= "<th scope='col'>Price</th>";
+            $table_products .= "<th scope='col'>Quantities</th>";
+            $table_products .= "<th scope='col'>Sub Total</th>";
+            $table_products .= "</tr>";
+            $table_products .= "</thead>";
+            $table_products .= "<tbody>";
 
+            for ($j = 1; $j <= $number_of_varieties; $j++) {
+                $product_name = $_POST["product-name-{$j}"];
+                $price = $_POST["price-{$j}"];
+                $quantities = $_POST["quantities-{$j}"];
+                $sub_total = $price * $quantities;
+                $table_products .= "<tr>";
+                $table_products .= "<td>" . $product_name .  "</td>";
+                $table_products .= "<td>" . $price . "</td>";
+                $table_products .= "<td>" . $quantities . "</td>";
+                $table_products .= "<td>" . $sub_total . "</td>";
+                $table_products .= "</tr>";
+                $total += $sub_total ;
+            }
 
+            if($total <= 1000)
+            {
+                $discount = $total * 0;
+            }
+            elseif($total > 1000 && $total <= 3000)
+            {
+                $discount = $total * (10/100);
+            }
+            elseif($total > 3000 && $total <= 4500)
+            {
+                $discount = $total * (15/100);
+            }
+            elseif($total > 4500)
+            {
+                $discount = $total * (20/100);
+            }
 
-echo " done";
-echo $product_name;
+            $Total_after_discount = $total - $discount;
+            
+            if($city = 'cairo')
+            {
+                $delivery = 0;
+            }
+            elseif($city = 'giza')
+            {
+                $delivery = 30;
+            }
+            elseif($city = 'alex')
+            {
+                $delivery = 50;
+            }
+            elseif($city = 'other')
+            {
+                $delivery = 100;
+            }
+            $net_total = $Total_after_discount + $delivery;
+            $table_products .="<tr>";
+            $table_products .="<th colspan='2'>Clint name</th>";
+            $table_products .="<td colspan='2'>$name</td>";
+            $table_products .="</tr>";
+            $table_products .="<tr>";
+            $table_products .="<th colspan='2'>City</th>";
+            $table_products .="<td colspan='2'>$city</td>";
+            $table_products .="</tr>";
+            $table_products .="<tr>";
+            $table_products .="<th colspan='2'>Total</th>";
+            $table_products .="<td colspan='2'>$total</td>";
+            $table_products .="</tr>";
+            $table_products .="<tr>";
+            $table_products .="<th colspan='2'>Discount</th>";
+            $table_products .="<td colspan='2'>$discount</td>";
+            $table_products .="</tr>";
+            $table_products .="<tr>";
+            $table_products .="<th colspan='2'>Total after discount</th>";
+            $table_products .="<td colspan='2'>$Total_after_discount</td>";
+            $table_products .="</tr>";
+            $table_products .="<tr>";
+            $table_products .="<th colspan='2'>Delivery</th>";
+            $table_products .="<td colspan='2'>$delivery</td>";
+            $table_products .="</tr>";
+            $table_products .="<tr>";
+            $table_products .="<th colspan='2' class ='text-primary'>Net Total</th>";
+            $table_products .="<td colspan='2'>$net_total</td>";
+            $table_products .="</tr>";
+            $table_products .= "</tbody>";
+            $table_products .= "</table>";
+        }
 
-
-
-        // $product_name = $_POST['product-name'];
-        // $price = $_POST['price'];
-        // $quantities = $_POST['quantities'];
-// 
-        // if (!empty($price) && !empty($quantities)) {
-            // $sub_total = $price * $quantities;
-// 
-            // $table_products  = "<table class='table'>";
-            // $table_products .= "<thead>";
-            // $table_products .= "<tr class='text-primary'>";
-            // $table_products .= "<th scope='col'>Product name</th>";
-            // $table_products .= "<th scope='col'>Price</th>";
-            // $table_products .= "<th scope='col'>Quantities</th>";
-            // $table_products .= "<th scope='col'>Sub Total</th>";
-            // $table_products .= "</tr>";
-            // $table_products .= "</thead>";
-            // $table_products .= "<tbody>";
-// 
-            // for ($j = 1; $j <= $number_of_varieties; $j++) {
-                // $table_products .= "<tr>";
-                // $table_products .= "<td>" . $product_name .  "</td>";
-                // $table_products .= "<td>" . $price . "</td>";
-                // $table_products .= "<td>" . $quantities . "</td>";
-                // $table_products .= "<td>" . $sub_total . "</td>";
-                // $table_products .= "</tr>";
-            // }
-            // $table_products .= "</tbody>";
-            // $table_products .= "</table>";
-        // }
-    }
 }
 ?>
 
@@ -110,10 +162,9 @@ echo $product_name;
                     <div class="mb-3">
                         <label class="form-label text-primary">City</label>
                         <select class="form-select" name="city">
-                            <option value="cairo">Cairo</option>
-                            <option value="giza">GiZa</option>
-                            <option value="alex">Alex</option>
-                            <option value="other">Other</option>
+                            <option value="giza"  <?php if ($city == 'giza') echo 'selected' ?>>Giza</option>
+                            <option value="alex" <?php if ($city == 'alex') echo 'selected' ?>>Alex</option>
+                            <option value="other" <?php if ($city == 'other') echo 'selected' ?> >Other</option>
                         </select>
                     </div>
                     <div class="mb-3">
