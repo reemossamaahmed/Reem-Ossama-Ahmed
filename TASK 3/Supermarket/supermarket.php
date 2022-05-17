@@ -77,19 +77,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $Total_after_discount = $total - $discount;
             
-            if($city = 'cairo')
+            if($city == 'cairo')
             {
                 $delivery = 0;
             }
-            elseif($city = 'giza')
+            elseif($city == 'giza')
             {
                 $delivery = 30;
             }
-            elseif($city = 'alex')
+            elseif($city == 'alex')
             {
                 $delivery = 50;
             }
-            elseif($city = 'other')
+            elseif($city == 'other')
             {
                 $delivery = 100;
             }
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $table_products .="</tr>";
             $table_products .="<tr>";
             $table_products .="<th colspan='2'>City</th>";
-            $table_products .="<td colspan='2'>$city</td>";
+            $table_products .="<td colspan='2'>{$_POST['city']}</td>";
             $table_products .="</tr>";
             $table_products .="<tr>";
             $table_products .="<th colspan='2'>Total</th>";
@@ -162,9 +162,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="mb-3">
                         <label class="form-label text-primary">City</label>
                         <select class="form-select" name="city">
-                            <option value="giza"  <?php if ($city == 'giza') echo 'selected' ?>>Giza</option>
-                            <option value="alex" <?php if ($city == 'alex') echo 'selected' ?>>Alex</option>
-                            <option value="other" <?php if ($city == 'other') echo 'selected' ?> >Other</option>
+                            <option value="cairo"  <?php if (isset($_POST['city']) && $_POST['city'] == 'cairo') echo 'selected' ?>>Cairo</option>
+                            <option value="giza"  <?php if (isset($_POST['city']) && $_POST['city'] == 'giza') echo 'selected' ?>>Giza</option>
+                            <option value="alex" <?php if (isset($_POST['city']) && $_POST['city'] == 'alex') echo 'selected' ?>>Alex</option>
+                            <option value="other" <?php if (isset($_POST['city']) && $_POST['city'] == 'other') echo 'selected' ?> >Other</option>
                         </select>
                     </div>
                     <div class="mb-3">
