@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (isset($_POST['submit'])) {
+    print_r($_POST);
+    die;
+}
 ?>
 
 <!doctype html>
@@ -23,49 +27,41 @@ session_start();
             <div class="col-9 m-auto">
                 <form method="POST">
                     <?php
+                    $input = "";
                     for ($i = 1; $i <= $_SESSION['no_of_family']; $i++) {
-                        $input = "<div class='mb-3 col-9 m-auto'>";
+                        $input .= "<div class='mb-3 col-9 m-auto'>";
                         $input .= "<label class='form-label text-primary fs-5 fw-bolder p-3'>Member {$i}</label>";
-                        $input .= "<input type='text' name='name-{$i}' class='form-control' placeholder='member name'>";
+                        $input .= "<input type='text' name='member{$i}[name]' class='form-control' placeholder='member name'>";
                         $input .= "</div>";
-                        if(isset($_POST["name-{$i}"]))
-                        $_SESSION['name-sub']=$_POST["name-{$i}"];
                         $input .= "<div class='form-check my-3 col-9 m-auto'>";
-                        $input .= "<input class='form-check-input' name='games-{$i}[]' id = 'games-{$i}-1' type='checkbox' value='football'>";
+                        $input .= "<input class='form-check-input' name='member{$i}[games][]' id = 'games-{$i}-1' type='checkbox' value='football'>";
                         $input .= "<label for = 'games-{$i}-1' class='form-check-label'>";
                         $input .= "Football <b>300 LE</b>";
                         $input .= "</label>";
                         $input .= "</div>";
                         $input .= "<div class='form-check my-3 col-9 m-auto'>";
-                        $input .= "<input class='form-check-input' name='games-{$i}[]' type='checkbox' id = 'games-{$i}-2' value='swimming'>";
+                        $input .= "<input class='form-check-input' name='member{$i}[games][]' type='checkbox' id = 'games-{$i}-2' value='swimming'>";
                         $input .= "<label for = 'games-{$i}-2' class='form-check-label'>";
                         $input .= "Swimming <b>250 LE</b>";
                         $input .= "</label>";
                         $input .= "</div>";
                         $input .= "<div class='form-check my-3 col-9 m-auto'>";
-                        $input .= "<input class='form-check-input' name='games-{$i}[]' type='checkbox' id = 'games-{$i}-3' value='volleyball'>";
+                        $input .= "<input class='form-check-input' name='member{$i}[games][]' type='checkbox' id = 'games-{$i}-3' value='volleyball'>";
                         $input .= "<label for = 'games-{$i}-3' class='form-check-label'>";
                         $input .= "Volleyball <b>150 LE</b>";
                         $input .= "</label>";
                         $input .= "</div>";
                         $input .= "<div class='form-check my-3 col-9 m-auto'>";
-                        $input .= " <input class='form-check-input' name='games-{$i}[]' type='checkbox' id = 'games-{$i}-4' value='others'>";
+                        $input .= " <input class='form-check-input' name='member{$i}[games][]' type='checkbox' id = 'games-{$i}-4' value='others'>";
                         $input .= "<label for = 'games-{$i}-4' class='form-check-label'>";
                         $input .= "Others <b>100 LE</b>";
                         $input .= "</label>";
                         $input .= "</div>";
-                        if(isset($_POST["games-{$i}"]))
-                        $_SESSION['games']=$_POST["games-{$i}"];
-                        echo $input;
-                        if(isset($_POST['submit']))
-                        {
-                            header("Location: result.php");
-                            exit;
-                        }
                     }
+                    echo $input;
                     ?>
                     <div class='text-center'>
-                    <button type='submit' name='submit' class='btn btn-primary col-8 my-5'>Check price</button>
+                        <button type='submit' name='submit' class='btn btn-primary col-8 my-5'>Check price</button>
                     </div>
                 </form>
             </div>
