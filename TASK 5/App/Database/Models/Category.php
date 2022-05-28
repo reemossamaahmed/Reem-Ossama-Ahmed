@@ -163,7 +163,7 @@ class Category extends Model implements ConnectTo{
     }
     public function checkCategoryIdExistOrNot()
     {
-        $query = "SELECT * FROM `product_details` WHERE `categories_id` = ?";
+        $query = "SELECT * FROM `categories` WHERE `id` = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i', $this->id);
         $stmt->execute();
