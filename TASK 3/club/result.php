@@ -1,5 +1,6 @@
 <?php
 session_start();
+// print_r($_SESSION);die;
 ?>
 
 
@@ -48,30 +49,39 @@ session_start();
 
                             $table_one .= "<td>" . $_SESSION['member_info']['member' . $j]['name'] . "</td>";
                             $game_price = 0;
-                            foreach ($_SESSION['member_info']['member' . $j]['games'] as $index) {
+                            if(isset($_SESSION['member_info']['member' . $j]['games'])){
+                                foreach ($_SESSION['member_info']['member' . $j]['games'] as $index) {
 
-                                if ($index == "football") {
-                                    $game_price += 300;
-                                    $total_game_price += 300;
-                                    $fcounter++;
+                                    if ($index == "football") {
+                                        $game_price += 300;
+                                        $total_game_price += 300;
+                                        $fcounter++;
+                                    }
+                                    if ($index == "swimming") {
+                                        $game_price += 250;
+                                        $total_game_price += 250;
+                                        $scounter++;
+                                    }
+                                    if ($index == "volleyball") {
+                                        $game_price += 150;
+                                        $total_game_price += 150;
+                                        $vcounter++;
+                                    }
+                                    if ($index == "others") {
+                                        $game_price += 100;
+                                        $total_game_price += 100;
+                                        $ocounter++;
+                                    }
+                                    $table_one .= "<td>{$index}</td>";
+    
                                 }
-                                if ($index == "swimming") {
-                                    $game_price += 250;
-                                    $total_game_price += 250;
-                                    $scounter++;
+                                for ($i=1; $i <= 4-count($_SESSION['member_info']['member' . $j]['games']); $i++) { 
+                                    $table_one .= "<td></td>";
                                 }
-                                if ($index == "volleyball") {
-                                    $game_price += 150;
-                                    $total_game_price += 150;
-                                    $vcounter++;
+                            }else{
+                                for ($i=1; $i <= 4; $i++) { 
+                                    $table_one .= "<td></td>";
                                 }
-                                if ($index == "others") {
-                                    $game_price += 100;
-                                    $total_game_price += 100;
-                                    $ocounter++;
-                                }
-                                $table_one .= "<td>{$index}</td>";
-
                             }
                             $table_one .= "<td>{$game_price}</td>";
                             $table_one .= "</tr>";
