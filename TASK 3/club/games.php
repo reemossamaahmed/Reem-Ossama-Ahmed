@@ -1,8 +1,9 @@
 <?php
 session_start();
 if (isset($_POST['submit'])) {
-    print_r($_POST);
-    die;
+    $_SESSION['member_info'] = $_POST;
+    header("Location: result.php");
+    exit;
 }
 ?>
 

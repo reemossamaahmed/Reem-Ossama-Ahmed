@@ -1,7 +1,5 @@
 <?php
 session_start();
-print_r($_SESSION);
-die;
 ?>
 
 
@@ -32,32 +30,62 @@ die;
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Subscriber</th>
-                            <th scope="col" colspan="4"><?php echo $_SESSION['name']; ?></th>
+                            <th>Subscriber</th>
+                            <th colspan="5"><?php echo $_SESSION['name']; ?></th>
                         </tr>
                     </thead>
                     <tbody>
-
-
                         <?php
-
+                        $game_price = 0;
+                        $total_game_price = 0;
+                        $fcounter = 0;
+                        $scounter = 0;
+                        $vcounter = 0;
+                        $ocounter = 0;
                         for ($j = 1; $j <= $_SESSION['no_of_family']; $j++) {
 
                             $table_one = "<tr>";
-                            
-                            $table_one .= "<td>" . $_SESSION['name-sub'] . "</td>";
 
-                            foreach ($_SESSION['games'] as $index) {
+                            $table_one .= "<td>" . $_SESSION['member_info']['member' . $j]['name'] . "</td>";
+                            $game_price = 0;
+                            foreach ($_SESSION['member_info']['member' . $j]['games'] as $index) {
+
+                                if ($index == "football") {
+                                    $game_price += 300;
+                                    $total_game_price += 300;
+                                    $fcounter++;
+                                }
+                                if ($index == "swimming") {
+                                    $game_price += 250;
+                                    $total_game_price += 250;
+                                    $scounter++;
+                                }
+                                if ($index == "volleyball") {
+                                    $game_price += 150;
+                                    $total_game_price += 150;
+                                    $vcounter++;
+                                }
+                                if ($index == "others") {
+                                    $game_price += 100;
+                                    $total_game_price += 100;
+                                    $ocounter++;
+                                }
                                 $table_one .= "<td>{$index}</td>";
-                            }
 
+                            }
+                            $table_one .= "<td>{$game_price}</td>";
                             $table_one .= "</tr>";
 
                             echo $table_one;
                         }
-
                         ?>
                     </tbody>
+                    <tfooter>
+                        <tr>
+                            <th colspan="5">Total Price</th>
+                            <th><?php echo $total_game_price; ?></th>
+                        </tr>
+                    </tfooter>
                 </table>
                 <h1 class="text-center p-5 fw-bolder text-warning">sports</h1>
 
@@ -65,27 +93,27 @@ die;
                     <tbody>
                         <tr>
                             <th class="p-3">Football Club</th>
-                            <td class="p-3">Mark</td>
+                            <td class="p-3"><?php echo $fcounter * 300;?></td>
                         </tr>
                         <tr>
                             <th class="p-3">Swimming Club</th>
-                            <td class="p-3">Mark</td>
+                            <td class="p-3"><?php echo $scounter * 250;?></td>
                         </tr>
                         <tr>
                             <th class="p-3">Volley Club</th>
-                            <td class="p-3">Jacob</td>
+                            <td class="p-3"><?php echo $vcounter * 150;?></td>
                         </tr>
                         <tr>
                             <th class="p-3">Others Club</th>
-                            <td class="p-3">Larry the Bird</td>
+                            <td class="p-3"><?php echo $ocounter * 100;?></td>
                         </tr>
                         <tr>
                             <th class="p-3">Club Supsciption</th>
-                            <td class="p-3"><?php echo $_SESSION['club_supscription'];?></td>
+                            <td class="p-3"><?php echo $_SESSION['club_supscription']; ?></td>
                         </tr>
                         <tr>
                             <th class="p-3">Total Price</th>
-                            <td class="p-3">Larry the Bird</td>
+                            <td class="p-3"><?php echo $_SESSION['club_supscription'] + $fcounter * 300 + $scounter * 250 + $vcounter * 150 + $ocounter * 100;?></td>
                         </tr>
                     </tbody>
                 </table>
